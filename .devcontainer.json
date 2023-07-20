@@ -1,6 +1,6 @@
 {
-    "name": "ludeeus/integration_blueprint",
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:0-3.10-bullseye",
+    "name": "kaechele/napoleon_efire",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11-bookworm",
     "postCreateCommand": "scripts/setup",
     "forwardPorts": [
         8123
