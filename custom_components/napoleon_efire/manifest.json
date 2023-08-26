@@ -1,0 +1,16 @@
+{
+  "domain": "napoleon_efire",
+  "name": "Napoleon eFIRE",
+  "bluetooth": [
+    {
+      "local_name": "NAP_FPC_*"
+    }
+  ],
+  "codeowners": ["@kaechele"],
+  "config_flow": true,
+  "dependencies": ["bluetooth_adapters"],
+  "documentation": "https://github.com/kaechele/napoleon-efire",
+  "iot_class": "local_polling",
+  "requirements": ["bluetooth-data-tools>=0.2.0", "pybonaparte==0.1.1"],
+  "version": "0.1.0"
+}

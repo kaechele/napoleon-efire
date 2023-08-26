@@ -1,4 +1,6 @@
+bluetooth_data_tools>=0.2.0
 colorlog==6.7.0
-homeassistant==2023.7.2
+homeassistant>=2023.8.4
 pip>=21.0,<23.3
+pybonaparte>=0.1.1
 ruff==0.0.285

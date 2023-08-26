@@ -1,0 +1,65 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Device is already configured"
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_auth": "Invalid authentication",
+      "unknown": "Unexpected error"
+    },
+    "step": {
+      "select_features": {
+        "data": {
+          "aux": "Aux",
+          "blower": "Blower",
+          "night_light": "Night Light",
+          "split_flow": "Split flow"
+        },
+        "data_description": {
+          "aux": "Select if you want to control the AUX relay on your fireplace",
+          "night_light": "The light mounted at the top inside the firebox",
+          "split_flow": "Select if your fireplace has a primary and secondary burner (eg. front/back)"
+        },
+        "description": "Select the features your fireplace is equipped with"
+      },
+      "user": {
+        "data": {
+          "device": "Device",
+          "password": "Password"
+        }
+      }
+    }
+  },
+  "entity": {
+    "fan": {
+      "blower": {
+        "name": "Blower"
+      }
+    },
+    "light": {
+      "night_light": {
+        "name": "Night Light"
+      }
+    },
+    "number": {
+      "flame_height": {
+        "name": "Flame Height"
+      }
+    },
+    "switch": {
+      "aux": {
+        "name": "Aux"
+      },
+      "flame": {
+        "name": "Flame"
+      },
+      "continuous_pilot": {
+        "name": "Continuous pilot"
+      },
+      "split_flow": {
+        "name": "Split flow"
+      }
+    }
+  }
+}
