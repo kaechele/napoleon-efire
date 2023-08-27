@@ -6,8 +6,7 @@ updates:
     schedule:
       interval: "weekly"
     commit-message:
-      prefix: "build(ci)"
-      include: "scope"
+      prefix: "ci"
     labels:
       - dependencies
     rebase-strategy: auto
