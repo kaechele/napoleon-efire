@@ -1,6 +1,7 @@
 ---
 title: Napoleon eFIRE
-description: Instructions on the IntelliFire Fireplace integration for Home Assistant.
+description:
+  Instructions on the IntelliFire Fireplace integration for Home Assistant.
 ha_category:
   - Binary Sensor
   - Climate
