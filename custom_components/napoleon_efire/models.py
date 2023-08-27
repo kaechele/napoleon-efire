@@ -4,6 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from bonaparte import Fireplace
+
 from .coordinator import NapoleonEfireDataUpdateCoordinator
 
 

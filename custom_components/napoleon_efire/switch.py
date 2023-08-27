@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from bonaparte import Fireplace, FireplaceState
+
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant

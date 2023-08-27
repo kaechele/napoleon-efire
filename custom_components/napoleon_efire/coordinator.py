@@ -5,6 +5,7 @@ import logging
 
 from async_timeout import timeout
 from bonaparte import Fireplace, FireplaceState
+
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 

@@ -31,8 +31,6 @@ async def async_setup_entry(
             "[%s] Night Light feature disabled on fireplace", data.device.name
         )
 
-    return
-
 
 class EfireNightLight(NapoleonEfireEntity, LightEntity):
     """Night Light entity."""

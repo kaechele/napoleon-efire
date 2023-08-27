@@ -34,8 +34,6 @@ async def async_setup_entry(
     else:
         _LOGGER.debug("[%s] Blower feature disabled on fireplace", data.device.name)
 
-    return
-
 
 class EfireFan(NapoleonEfireEntity, FanEntity):
     """Fan entity for the fireplace."""
