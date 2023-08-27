@@ -34,13 +34,12 @@ path = "custom_components/napoleon_efire/manifest.json"
 pattern = '"version": "(?P<version>[^\"]+)"'
 
 [tool.hatch.envs.lint]
+detached = true
 dependencies = [
   "black>=23.7.0",
-  "mypy>=1.5.1",
   "ruff>=0.0.286",
 ]
 [tool.hatch.envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:custom_components/napoleon_efire}"
 style = [
   "ruff {args:.}",
   "black --check --diff {args:.}",
@@ -52,7 +51,6 @@ fmt = [
 ]
 all = [
   "style",
-  "typing",
 ]
 
 [tool.hatch.envs.release]

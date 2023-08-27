@@ -9,12 +9,12 @@ on:
       - "main"
 
 jobs:
-  ruff:
-    name: "Ruff"
+  lint:
+    name: "Lint"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout the repository"
-        uses: "actions/checkout@v3.5.3"
+        uses: "actions/checkout@v3.6.0"
 
       - name: "Set up Python"
         uses: "actions/setup-python@v4.7.0"
@@ -23,7 +23,7 @@ jobs:
           cache: "pip"
 
       - name: "Install requirements"
-        run: "python3 -m pip install -r requirements.txt"
+        run: "pipx install hatch"
 
       - name: "Run"
-        run: "python3 -m ruff check ."
+        run: "hatch run lint:all"
