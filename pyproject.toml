@@ -21,7 +21,7 @@ classifiers = [
 dependencies = [
   "bluetooth_data_tools>=0.2.0",
   "homeassistant>=2023.8.4",
-  "pybonaparte>=0.1.1"
+  "pybonaparte>=0.1.2"
 ]
 
 [project.urls]
