@@ -17,6 +17,7 @@ repos:
     rev: v3.0.3
     hooks:
       - id: prettier
+        exclude: "(CHANGELOG.md)"
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.10.1
     hooks:
