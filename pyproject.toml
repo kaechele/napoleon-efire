@@ -33,8 +33,13 @@ Source = "https://github.com/kaechele/napoleon-efire"
 path = "custom_components/napoleon_efire/manifest.json"
 pattern = '"version": "(?P<version>[^\"]+)"'
 
+
+[tool.hatch.envs.default]
+path = ".envs/default"
+
 [tool.hatch.envs.lint]
 detached = true
+path = ".envs/lint"
 dependencies = [
   "black>=23.7.0",
   "ruff>=0.0.286",
