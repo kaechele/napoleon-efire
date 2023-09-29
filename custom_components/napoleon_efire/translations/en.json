@@ -38,21 +38,16 @@
       }
     },
     "light": {
+      "flame": {
+        "name": "Flame"
+      },
       "night_light": {
         "name": "Night Light"
-      }
-    },
-    "number": {
-      "flame_height": {
-        "name": "Flame Height"
       }
     },
     "switch": {
       "aux": {
         "name": "Aux"
-      },
-      "flame": {
-        "name": "Flame"
       },
       "continuous_pilot": {
         "name": "Continuous pilot"

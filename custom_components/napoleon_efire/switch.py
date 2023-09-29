@@ -35,14 +35,6 @@ class EfireSwitchEntityDescription(
 
 EFIRE_SWITCHES: tuple[EfireSwitchEntityDescription, ...] = (
     EfireSwitchEntityDescription(
-        key="on_off",
-        translation_key="flame",
-        icon="mdi:fire",
-        on_fn=lambda device: device.power_on(),
-        off_fn=lambda device: device.power_off(),
-        value_fn=lambda data: data.power,
-    ),
-    EfireSwitchEntityDescription(
         key="continuous_pilot",
         translation_key="continuous_pilot",
         icon="mdi:candle",
@@ -80,7 +72,7 @@ async def async_setup_entry(
     async_add_entities(
         EfireSwitch(coordinator=data.coordinator, description=description)
         for description in EFIRE_SWITCHES
-        if description.key in ["on_off", "continuous_pilot"]
+        if description.key == "continuous_pilot"
         or getattr(data.device.features, description.key, False)
     )
 

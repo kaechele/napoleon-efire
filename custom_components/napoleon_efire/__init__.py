@@ -24,7 +24,6 @@ from .models import FireplaceData
 PLATFORMS: list[Platform] = [
     Platform.FAN,
     Platform.LIGHT,
-    Platform.NUMBER,
     Platform.SWITCH,
 ]
 
