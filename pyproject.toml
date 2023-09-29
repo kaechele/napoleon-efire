@@ -36,6 +36,7 @@ pattern = '"version": "(?P<version>[^\"]+)"'
 
 [tool.hatch.envs.default]
 path = ".envs/default"
+python = "3.11"
 
 [tool.hatch.envs.lint]
 detached = true
