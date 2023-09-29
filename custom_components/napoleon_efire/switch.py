@@ -85,12 +85,12 @@ class EfireSwitch(NapoleonEfireEntity, SwitchEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn on the switch."""
         await self.entity_description.on_fn(self.coordinator.device)
-        await self.async_update_ha_state(force_refresh=True)
+        await self.coordinator.async_request_refresh()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn off the switch."""
         await self.entity_description.off_fn(self.coordinator.device)
-        await self.async_update_ha_state(force_refresh=True)
+        await self.coordinator.async_request_refresh()
 
     @property
     def is_on(self) -> bool | None:
