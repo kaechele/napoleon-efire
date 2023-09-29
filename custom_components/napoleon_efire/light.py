@@ -103,14 +103,10 @@ class EfireNightLight(NapoleonEfireEntity, LightEntity):
         else:
             light_level = 6
 
-        result = await self.fireplace.set_night_light_brightness(light_level)
-        if result:
-            self.coordinator.data.night_light_brightness = light_level
+        await self.fireplace.set_night_light_brightness(light_level)
         await self.coordinator.async_request_refresh()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Instruct the light to turn off."""
-        result = await self.fireplace.set_night_light_brightness(0)
-        if result:
-            self.coordinator.data.night_light_brightness = 0
+        await self.fireplace.set_night_light_brightness(0)
         await self.coordinator.async_request_refresh()
