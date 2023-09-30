@@ -8,26 +8,28 @@
       "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
       "unknown": "[%key:common::config_flow::error::unknown%]"
     },
+    "flow_title": "Napoleon Fireplace {name}",
     "step": {
       "select_features": {
-        "description": "Select the features your fireplace is equipped with",
         "data": {
+          "aux": "[%key:component::napoleon_efire::entity::switch::aux::name%]",
           "blower": "[%key:component::napoleon_efire::entity::fan::blower::name%]",
           "night_light": "[%key:component::napoleon_efire::entity::light::night_light::name%]",
-          "split_flow": "[%key:component::napoleon_efire::entity::switch::split_flow::name%]",
-          "aux": "[%key:component::napoleon_efire::entity::switch::aux::name%]"
+          "split_flow": "[%key:component::napoleon_efire::entity::switch::split_flow::name%]"
         },
         "data_description": {
+          "aux": "Select if you want to control the AUX relay on your fireplace",
           "night_light": "The light mounted at the top inside the firebox",
-          "split_flow": "Select if your fireplace has a primary and secondary burner (eg. front/back)",
-          "aux": "Select if you want to control the AUX relay on your fireplace"
-        }
+          "split_flow": "Select if your fireplace has a primary and secondary burner (eg. front/back)"
+        },
+        "description": "Select the features your fireplace is equipped with"
       },
       "user": {
         "data": {
-          "device": "[%key:common::config_flow::data::device%]",
+          "address": "[%key:common::config_flow::data::device%]",
           "password": "[%key:common::config_flow::data::password%]"
-        }
+        },
+        "description": "Select your fireplace and enter the password"
       }
     }
   },

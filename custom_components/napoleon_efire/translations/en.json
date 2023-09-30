@@ -8,6 +8,7 @@
       "invalid_auth": "Invalid authentication",
       "unknown": "Unexpected error"
     },
+    "flow_title": "Napoleon Fireplace {name}",
     "step": {
       "select_features": {
         "data": {
@@ -25,9 +26,10 @@
       },
       "user": {
         "data": {
-          "device": "Device",
+          "address": "Device",
           "password": "Password"
-        }
+        },
+        "description": "Select your fireplace and enter the password"
       }
     }
   },

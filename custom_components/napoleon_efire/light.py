@@ -57,7 +57,7 @@ class EfireFlame(NapoleonEfireEntity, LightEntity):
     @property
     def is_on(self) -> bool:
         """Return true if flame is on."""
-        return self.fireplace.state.power
+        return self.fireplace.state.flame_height >= 1
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Instruct the flame to turn on."""
@@ -72,7 +72,7 @@ class EfireFlame(NapoleonEfireEntity, LightEntity):
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Instruct the flame to turn off."""
-        await self.fireplace.power_off()
+        await self.fireplace.set_flame_height(0)
         await self.coordinator.async_request_refresh()
 
 

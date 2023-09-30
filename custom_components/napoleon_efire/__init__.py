@@ -40,7 +40,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             f"Could not find eFIRE fireplace controller with address {address}"
         )
 
-    fireplace = Fireplace(ble_device)
+    fireplace = Fireplace(ble_device, compatibility_mode=False)
     fireplace.set_features(set(entry.data[CONF_FEATURES]))
     _LOGGER.debug(
         "Fireplace %s initialized. Feature set: %s",
