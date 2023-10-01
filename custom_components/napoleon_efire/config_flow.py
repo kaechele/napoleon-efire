@@ -21,7 +21,7 @@ from homeassistant.helpers import selector
 
 from .const import CONF_FEATURES, DOMAIN, LOCAL_NAME_PREFIX, UNSUPPORTED_FEATURES
 
-AVAILABLE_FEATURES = {f.value for f in Feature if f.value not in UNSUPPORTED_FEATURES}
+AVAILABLE_FEATURES = [f.value for f in Feature if f.value not in UNSUPPORTED_FEATURES]
 
 FEATURES_SCHEMA = {
     # replace selector.BooleanSelector() with bool once
