@@ -67,17 +67,8 @@ dependencies = [
 
 [tool.hatch.envs.release.scripts]
 dryrun = "semantic-release --noop version"
-update_version = "hatch version $(semantic-release --noop version --print)"
-local = [
-  "update_version",
-  "git add custom_components/napoleon_efire/manifest.json",
-  "semantic-release version --no-push"
-]
-push = [
-  "update_version",
-  "git add custom_components/napoleon_efire/manifest.json",
-  "semantic-release version"
-]
+local = "semantic-release version --no-push"
+push = "semantic-release version"
 
 [tool.black]
 target-version = ["py310", "py311"]
@@ -204,4 +195,7 @@ max-complexity = 25
 
 [tool.semantic_release]
 logging_use_named_masks = true
-branch = "main"
+assets = [
+  "custom_components/napoleon_efire/manifest.json"
+]
+build_command = "hatch version $(semantic-release version --print) && pushd custom_components/napoleon_efire/ && mkdir ../../dist && zip ../../dist/napoleon_efire.zip -r ./; popd"
