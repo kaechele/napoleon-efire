@@ -33,7 +33,6 @@ Source = "https://github.com/kaechele/napoleon-efire"
 path = "custom_components/napoleon_efire/manifest.json"
 pattern = '"version": "(?P<version>[^\"]+)"'
 
-
 [tool.hatch.envs.default]
 path = ".envs/default"
 python = "3.11"
@@ -195,7 +194,12 @@ max-complexity = 25
 
 [tool.semantic_release]
 logging_use_named_masks = true
-assets = [
-  "custom_components/napoleon_efire/manifest.json"
-]
-build_command = "hatch version $(semantic-release version --print) && pushd custom_components/napoleon_efire/ && mkdir ../../dist && zip ../../dist/napoleon_efire.zip -r ./; popd"
+build_command = """
+  hatch --version || pip install hatch
+  hatch version $(semantic-release version --print)
+  git add custom_components/napoleon_efire/manifest.json
+  pushd custom_components/napoleon_efire/
+  mkdir -p ../../dist
+  zip ../../dist/napoleon_efire.zip -r ./
+  popd
+"""

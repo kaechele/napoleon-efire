@@ -16,9 +16,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Hatch
-        run: pip install hatch
-
       # Run semantic release:
       # - Update CHANGELOG.md
       # - Update version in code
