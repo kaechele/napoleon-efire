@@ -2,6 +2,45 @@
 
 
 
+## v0.2.1 (2023-10-21)
+
+### Build
+
+* build: nasty hack to fix asset builds
+
+Should no longer be needed once
+https://github.com/python-semantic-release/python-semantic-release/pull/692
+is merged.
+
+Signed-off-by: Felix Kaechele &lt;felix@kaechele.ca&gt; ([`d5b0f41`](https://github.com/kaechele/napoleon-efire/commit/d5b0f41f55df20f2f92f4973a476f8621d96fc6c))
+
+### Ci
+
+* ci: bump python-semantic-release/python-semantic-release
+
+Bumps [python-semantic-release/python-semantic-release](https://github.com/python-semantic-release/python-semantic-release) from 8.1.1 to 8.1.2.
+- [Release notes](https://github.com/python-semantic-release/python-semantic-release/releases)
+- [Changelog](https://github.com/python-semantic-release/python-semantic-release/blob/master/CHANGELOG.md)
+- [Commits](https://github.com/python-semantic-release/python-semantic-release/compare/v8.1.1...v8.1.2)
+
+---
+updated-dependencies:
+- dependency-name: python-semantic-release/python-semantic-release
+  dependency-type: direct:production
+  update-type: version-update:semver-patch
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt; ([`57222b7`](https://github.com/kaechele/napoleon-efire/commit/57222b709fb47425647629535751de601d6d2f0b))
+
+### Fix
+
+* fix: ensure a minimum flame height value of 1 for any non-zero brightness value from the entity
+
+See https://community.home-assistant.io/t/napoleon-efire-enabled-fireplaces-work-in-progress/547976/31
+
+Signed-off-by: Felix Kaechele &lt;felix@kaechele.ca&gt; ([`36e2a78`](https://github.com/kaechele/napoleon-efire/commit/36e2a78fb173df7792b988fa4c200e66933cda61))
+
+
 ## v0.2.0 (2023-10-16)
 
 ### Build
