@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+from math import ceil
 from typing import Any
 
 from homeassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
@@ -63,7 +64,7 @@ class EfireFlame(NapoleonEfireEntity, LightEntity):
         """Instruct the flame to turn on."""
         flame_height = 6
         if ATTR_BRIGHTNESS in kwargs:
-            flame_height = round(kwargs[ATTR_BRIGHTNESS] / 255 * 6)
+            flame_height = min(ceil(kwargs[ATTR_BRIGHTNESS] / 255 * 6), 6)
         # Setting the flame height to a non-zero value will also implicitly
         # call the power_on function in the bonaparte library.
         # Therefor, not calling it explicitly here.
