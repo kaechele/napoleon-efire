@@ -200,6 +200,7 @@ build_command = """
   git add custom_components/napoleon_efire/manifest.json
   pushd custom_components/napoleon_efire/
   mkdir -p ../../dist
+  zip || apt-get install -y zip
   zip ../../dist/napoleon_efire.zip -r ./
   popd
 """
