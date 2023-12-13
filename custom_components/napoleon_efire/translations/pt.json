@@ -1,0 +1,62 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Equipamento já configurado"
+    },
+    "error": {
+      "cannot_connect": "Falha na ligação",
+      "invalid_auth": "Autenticação errada",
+      "unknown": "Erro desconhecido"
+    },
+    "flow_title": "Napoleão Fireplace {nome}",
+    "step": {
+      "select_features": {
+        "data": {
+          "aux": "Auxiliar",
+          "blower": "Superador",
+          "night_light": "Luz Noturna",
+          "split_flow": "Fluxo"
+        },
+        "data_description": {
+          "aux": "Selecionar caso queira selecionar o relé auxiliar",
+          "night_light": "Luzes de no topo",
+          "split_flow": "Se querer selecionar o fluxo principal ou secundario"
+        },
+        "description": "Selecione os addons que tem disponiveis"
+      },
+      "user": {
+        "data": {
+          "address": "Equipamento",
+          "password": "Senha"
+        },
+        "description": "Selecione a sua lareira e senha"
+      }
+    }
+  },
+  "entity": {
+    "fan": {
+      "blower": {
+        "name": "Suprador"
+      }
+    },
+    "light": {
+      "flame": {
+        "name": "Chama"
+      },
+      "night_light": {
+        "name": "Luz noturna"
+      }
+    },
+    "switch": {
+      "aux": {
+        "name": "Auxiliar"
+      },
+      "continuous_pilot": {
+        "name": "Piloto continuo"
+      },
+      "split_flow": {
+        "name": "Fluxo de separação"
+      }
+    }
+  }
+}
