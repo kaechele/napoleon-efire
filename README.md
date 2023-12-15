@@ -112,14 +112,9 @@ Controller) which this integration cannot influence.
 
 ### Installation through HACS
 
-Currently, this repository can only be installed as a custom repository in HACS.
-
 1. Go to HACS in your Home Assistant instance.
 1. Click on **Integrations**.
-1. Open the overflow menu at the top right and select **Custom Repositories**.
-1. Paste the URL to this repository
-   (`https://github.com/kaechele/napoleon-efire.git`) and select **Integration**
-   as the category. Click **Add**.
+1. Search for the **Napoleon eFIRE** integration.
 1. Install the integration from the HACS interface.
 
 ### Manual Installation
@@ -156,7 +151,7 @@ If you want to contribute to this please read the
 [commits]: https://github.com/kaechele/napoleon-efire/commits/main
 [hacs]: https://github.com/hacs/integration
 [hacsbadge]:
-  https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
+  https://img.shields.io/badge/HACS-Default-green.svg?style=for-the-badge
 [license-shield]:
   https://img.shields.io/github/license/kaechele/napoleon-efire.svg?style=for-the-badge
 [maintenance-shield]:
