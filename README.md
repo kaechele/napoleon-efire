@@ -12,11 +12,11 @@ Assisstant. Works best with an
 
 **This integration will set up the following platforms:**
 
-| Platform | Description                                                                                   |
-| -------- | --------------------------------------------------------------------------------------------- |
-| `fan`    | Controls the optional 6-speed blower fan.                                                     |
-| `light`  | Controls the optional light kit. The optional LED controller is not yet implemented.          |
-| `number` | Allows setting the flame height on a scale of 1 to 6.                                         |
+<!-- prettier-ignore -->
+| Platform | Description |
+| --- | --- |
+| `fan` | Controls the optional 6-speed blower fan. |
+| `light` | Controls the flame height (modeled as brightness percentage steps of 16.7 % per flame height step) and the optional light kit. The optional LED controller is not yet implemented. |
 | `switch` | Controls the main power as well as auxillary power, continuous pilot and split flow settings. |
 
 ## Implemented features and controls
@@ -45,13 +45,11 @@ Assisstant. Works best with an
    are depleted) outweigh the additional cost and negative air quality effects
    from constantly burning a small amount of fuel.
 
-1. Flame (Switch entity)
+1. Flame (Light entity)
 
-   Turns on or off the flame on the fireplace.
-
-1. Flame height (Number entity)
-
-   Allows setting the flame height on a scale from 1 to 6.
+   Allows turning on and off the flame as well as setting the flame height on a
+   scale from 1 to 6, mapped to brightness values in percentage steps of 16.7%
+   (100% / 6).
 
 1. Night light (Light entity, _optional_)
 
