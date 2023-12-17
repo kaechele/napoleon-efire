@@ -1,9 +1,9 @@
 """The Napoleon eFIRE integration."""
 from __future__ import annotations
 
+import asyncio
 import logging
 
-from async_timeout import timeout
 from bonaparte import Fireplace, FireplaceState
 
 from homeassistant.core import HomeAssistant
@@ -40,7 +40,7 @@ class NapoleonEfireDataUpdateCoordinator(DataUpdateCoordinator[FireplaceState]):
         return await super().async_config_entry_first_refresh()
 
     async def _async_update_data(self) -> FireplaceState:
-        async with timeout(UPDATE_TIMEOUT):
+        async with asyncio.timeout(UPDATE_TIMEOUT):
             try:
                 await self.device.update_state()
                 _LOGGER.debug("Old state: %s", self.data)

@@ -41,17 +41,15 @@ python = "3.11"
 detached = true
 path = ".envs/lint"
 dependencies = [
-  "black>=23.7.0",
-  "ruff>=0.0.286",
+  "ruff>=0.1.8",
 ]
 [tool.hatch.envs.lint.scripts]
 style = [
-  "ruff {args:.}",
-  "black --check --diff {args:.}",
+  "ruff format --diff {args:.}",
 ]
 fmt = [
-  "black {args:.}",
-  "ruff --fix {args:.}",
+  "ruff check --fix {args:.}",
+  "ruff format {args:.}",
   "style",
 ]
 all = [
@@ -149,7 +147,12 @@ ignore = [
     "D407",  # Section name underlining
     "E501",  # line too long
     "E731",  # do not assign a lambda expression, use a def
-    "PLC1901", # Lots of false positives
+
+    # Ignore ignored, as the rule is now back in preview/nursery, which cannot
+    # be ignored anymore without warnings.
+    # https://github.com/astral-sh/ruff/issues/7491
+    # "PLC1901", # Lots of false positives
+
     # False positives https://github.com/astral-sh/ruff/issues/5386
     "PLC0208", # Use a sequence type instead of a `set` when iterating over values
     "PLR0911", # Too many return statements ({returns} > {max_returns})
@@ -178,6 +181,7 @@ voluptuous = "vol"
 fixture-parentheses = false
 
 [tool.ruff.flake8-tidy-imports.banned-api]
+"async_timeout".msg = "use asyncio.timeout instead"
 "pytz".msg = "use zoneinfo instead"
 
 [tool.ruff.isort]
