@@ -8,7 +8,7 @@
       "invalid_auth": "Autenticação errada",
       "unknown": "Erro desconhecido"
     },
-    "flow_title": "Napoleão Fireplace {nome}",
+    "flow_title": "Napoleão Fireplace {name}",
     "step": {
       "select_features": {
         "data": {
