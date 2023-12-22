@@ -14,6 +14,7 @@
         "data": {
           "aux": "Auxiliar",
           "blower": "Superador",
+          "led_lights": "Luzes LED",
           "night_light": "Luz Noturna",
           "split_flow": "Fluxo"
         },
@@ -42,6 +43,9 @@
     "light": {
       "flame": {
         "name": "Chama"
+      },
+      "led_lights": {
+        "name": "Luzes LED"
       },
       "night_light": {
         "name": "Luz noturna"

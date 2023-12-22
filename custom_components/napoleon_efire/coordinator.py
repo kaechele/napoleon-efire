@@ -45,9 +45,8 @@ class NapoleonEfireDataUpdateCoordinator(DataUpdateCoordinator[FireplaceState]):
             try:
                 await self.device.update_state()
                 _LOGGER.debug("Old state: %s", self.data)
-                self.data = self.device.state
-                _LOGGER.debug("New state: %s", self.data)
+                _LOGGER.debug("New state: %s", self.device.state)
             except ConnectionError as exception:
                 raise UpdateFailed from exception
 
-        return self.data
+        return self.device.state
