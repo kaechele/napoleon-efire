@@ -43,6 +43,9 @@
       "flame": {
         "name": "Chama"
       },
+      "led_lights": {
+        "name": "Luzes LED"
+      },
       "night_light": {
         "name": "Luz noturna"
       }
