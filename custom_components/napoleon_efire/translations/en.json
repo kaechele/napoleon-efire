@@ -43,6 +43,9 @@
       "flame": {
         "name": "Flame"
       },
+      "led_lights": {
+        "name": "LED Lights"
+      },
       "night_light": {
         "name": "Night Light"
       }
