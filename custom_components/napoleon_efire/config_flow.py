@@ -4,7 +4,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from bleak_retry_connector import BLEDevice
+from bleak.backends.device import BLEDevice
 from bluetooth_data_tools import human_readable_name
 from bonaparte import Fireplace
 from bonaparte.const import Feature
