@@ -14,6 +14,7 @@
         "data": {
           "aux": "Aux",
           "blower": "Blower",
+          "led_lights": "LED Lights",
           "night_light": "Night Light",
           "split_flow": "Split flow"
         },

@@ -14,6 +14,7 @@
         "data": {
           "aux": "Auxiliar",
           "blower": "Superador",
+          "led_lights": "Luzes LED",
           "night_light": "Luz Noturna",
           "split_flow": "Fluxo"
         },
