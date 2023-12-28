@@ -17,6 +17,7 @@ classifiers = [
   "Programming Language :: Python",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
   "bluetooth_data_tools>=0.2.0",
@@ -35,7 +36,7 @@ pattern = '"version": "(?P<version>[^\"]+)"'
 
 [tool.hatch.envs.default]
 path = ".envs/default"
-python = "3.11"
+python = "3.12"
 
 [tool.hatch.envs.lint]
 detached = true
