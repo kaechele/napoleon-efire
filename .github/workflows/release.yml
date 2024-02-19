@@ -23,7 +23,7 @@ jobs:
       # - Create GitHub release
       - name: Python Semantic Release
         id: release
-        uses: python-semantic-release/python-semantic-release@v8.7.2
+        uses: python-semantic-release/python-semantic-release@v9.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
