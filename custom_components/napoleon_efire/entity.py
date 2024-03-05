@@ -1,4 +1,5 @@
 """Platform for shared base classes for sensors."""
+
 from __future__ import annotations
 
 import homeassistant.helpers.device_registry as dr

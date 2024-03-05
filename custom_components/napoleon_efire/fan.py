@@ -1,4 +1,5 @@
 """Fan definition for Efire."""
+
 from __future__ import annotations
 
 import logging

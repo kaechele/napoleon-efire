@@ -15,7 +15,6 @@ authors = [
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
 ]
@@ -70,8 +69,9 @@ push = "semantic-release version"
 
 # see https://github.com/home-assistant/core/blob/dev/pyproject.toml
 [tool.ruff]
-target-version = "py310"
+target-version = "py312"
 
+[tool.ruff.lint]
 select = [
     "B002", # Python does not support the unary prefix increment
     "B007", # Loop control variable {name} not used within loop body
@@ -166,7 +166,7 @@ ignore = [
 
 ]
 
-[tool.ruff.flake8-import-conventions.extend-aliases]
+[tool.ruff.lint.flake8-import-conventions.extend-aliases]
 voluptuous = "vol"
 "homeassistant.helpers.area_registry" = "ar"
 "homeassistant.helpers.config_validation" = "cv"
@@ -175,14 +175,14 @@ voluptuous = "vol"
 "homeassistant.helpers.issue_registry" = "ir"
 "homeassistant.util.dt" = "dt_util"
 
-[tool.ruff.flake8-pytest-style]
+[tool.ruff.lint.flake8-pytest-style]
 fixture-parentheses = false
 
-[tool.ruff.flake8-tidy-imports.banned-api]
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
 "async_timeout".msg = "use asyncio.timeout instead"
 "pytz".msg = "use zoneinfo instead"
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 force-sort-within-sections = true
 known-first-party = [
     "homeassistant",
@@ -191,7 +191,7 @@ known-first-party = [
 combine-as-imports = true
 split-on-trailing-comma = false
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 25
 
 [tool.semantic_release]
