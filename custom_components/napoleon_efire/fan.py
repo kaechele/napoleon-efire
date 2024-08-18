@@ -39,7 +39,11 @@ async def async_setup_entry(
 class EfireFan(NapoleonEfireEntity, FanEntity):
     """Fan entity for the fireplace."""
 
-    _attr_supported_features = FanEntityFeature.SET_SPEED
+    _attr_supported_features = (
+        FanEntityFeature.TURN_ON
+        | FanEntityFeature.TURN_OFF
+        | FanEntityFeature.SET_SPEED
+    )
     _attr_translation_key = "blower"
 
     key = _attr_translation_key
