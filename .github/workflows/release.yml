@@ -12,7 +12,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -23,12 +23,12 @@ jobs:
       # - Create GitHub release
       - name: Python Semantic Release
         id: release
-        uses: python-semantic-release/python-semantic-release@v9.17.0
+        uses: python-semantic-release/python-semantic-release@v10.3.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish package distributions to GitHub Releases
-        uses: python-semantic-release/upload-to-gh-release@main
+        uses: python-semantic-release/publish-action@v10.3.1
         if: steps.release.outputs.released == 'true'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

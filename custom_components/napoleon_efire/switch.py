@@ -2,20 +2,23 @@
 
 from __future__ import annotations
 
-from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from typing import Any
-
-from bonaparte import Fireplace, FireplaceState
+from typing import TYPE_CHECKING, Any
 
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN
 from .entity import NapoleonEfireEntity
-from .models import FireplaceData
+
+if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable
+
+    from bonaparte import Fireplace, FireplaceState
+    from homeassistant.config_entries import ConfigEntry
+    from homeassistant.core import HomeAssistant
+    from homeassistant.helpers.entity_platform import AddEntitiesCallback
+
+    from .models import FireplaceData
 
 
 @dataclass

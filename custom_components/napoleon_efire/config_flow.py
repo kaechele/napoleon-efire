@@ -3,31 +3,34 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import TYPE_CHECKING
 
-from bleak.backends.device import BLEDevice
+import voluptuous as vol
 from bluetooth_data_tools import human_readable_name
 from bonaparte import Fireplace
 from bonaparte.const import Feature
-import voluptuous as vol
-
-from homeassistant import config_entries
 from homeassistant.components.bluetooth import (
     BluetoothServiceInfoBleak,
     async_discovered_service_info,
 )
-from homeassistant.const import CONF_ADDRESS, CONF_PASSWORD
-from homeassistant.data_entry_flow import FlowResult
+from homeassistant.config_entries import ConfigFlow
+from homeassistant.const import CONF_ADDRESS, CONF_NAME, CONF_PASSWORD
 from homeassistant.helpers import selector
 
 from .const import CONF_FEATURES, DOMAIN, LOCAL_NAME_PREFIX, UNSUPPORTED_FEATURES
+
+if TYPE_CHECKING:
+    from bleak.backends.device import BLEDevice
+    from homeassistant.config_entries import ConfigFlowResult
 
 AVAILABLE_FEATURES = [f.value for f in Feature if f.value not in UNSUPPORTED_FEATURES]
 
 FEATURES_SCHEMA = {
     # replace selector.BooleanSelector() with bool once
     # https://github.com/home-assistant/frontend/issues/15536 is fixed
-    vol.Required(feature, default=False): selector.BooleanSelector()
+    vol.Required(feature, default=False): selector.BooleanSelector(
+        selector.BackupLocationSelectorConfig()
+    )
     for feature in AVAILABLE_FEATURES
 }
 
@@ -46,7 +49,7 @@ async def async_validate_fireplace_or_error(
     return {}
 
 
-class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class EfireConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Napoleon eFIRE."""
 
     VERSION = 1
@@ -56,11 +59,11 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         super().__init__()
         self._discovery_info: BluetoothServiceInfoBleak | None = None
         self._discovered_devices: dict[str, BluetoothServiceInfoBleak] = {}
-        self._init_info: dict[str, Any] | None = None
+        self._init_info: dict[str, str] | None = None
 
     async def async_step_bluetooth(
         self, discovery_info: BluetoothServiceInfoBleak
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle the bluetooth discovery step."""
         await self.async_set_unique_id(discovery_info.address)
         self._abort_if_unique_id_configured()
@@ -73,8 +76,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return await self.async_step_user()
 
     async def async_step_user(
-        self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+        self, user_input: dict[str, str] | None = None
+    ) -> ConfigFlowResult:
         """Handle the user step to pick discovered device."""
         errors: dict[str, str] = {}
 
@@ -93,7 +96,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 )
             ):
                 self._init_info = {
-                    "name": discovery_info.name,
+                    CONF_NAME: discovery_info.name,
                     CONF_ADDRESS: discovery_info.address,
                     CONF_PASSWORD: password,
                 }
@@ -135,8 +138,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     async def async_step_select_features(
-        self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+        self, user_input: dict[str, bool] | None = None
+    ) -> ConfigFlowResult:
         """Allow the user to select the features available on the fireplace."""
         if user_input is not None and self._init_info is not None:
             supported_features = [

@@ -4,26 +4,27 @@ from __future__ import annotations
 
 import logging
 from math import ceil
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
+import homeassistant.util.color as color_util
 from bonaparte.const import LedMode
-
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
     ATTR_EFFECT,
     ATTR_HS_COLOR,
-    ColorMode,
     LightEntity,
-    LightEntityFeature,
 )
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
-import homeassistant.util.color as color_util
+from homeassistant.components.light.const import ColorMode, LightEntityFeature
 
 from .const import DOMAIN
 from .entity import NapoleonEfireEntity
-from .models import FireplaceData
+
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
+    from homeassistant.core import HomeAssistant
+    from homeassistant.helpers.entity_platform import AddEntitiesCallback
+
+    from .models import FireplaceData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -46,7 +47,7 @@ async def async_setup_entry(
     """Set up the light entity."""
     data: FireplaceData = hass.data[DOMAIN][entry.entry_id]
 
-    efire_lights = [EfireFlame(coordinator=data.coordinator)]
+    efire_lights: list[NapoleonEfireEntity] = [EfireFlame(coordinator=data.coordinator)]
 
     if data.device.has_led_lights:
         efire_lights.append(EfireLed(coordinator=data.coordinator))
@@ -165,16 +166,17 @@ class EfireLed(NapoleonEfireEntity, LightEntity):
         return int((self._hsv_color[2] / 100) * 255)
 
     @property
-    def effect(self) -> str | None:
+    def effect(self) -> str:
         """Return the current effect."""
-        if self.coordinator.data.led_mode == LedMode.CYCLE:
-            return EFFECT_CYCLE
-        if self.coordinator.data.led_mode == LedMode.EMBER_BED:
-            return EFFECT_EMBER_BED
+        match self.coordinator.data.led_mode:
+            case LedMode.CYCLE:
+                return EFFECT_CYCLE
+            case LedMode.EMBER_BED:
+                return EFFECT_EMBER_BED
         return EFFECT_HOLD
 
     @property
-    def hs_color(self) -> [float, float]:
+    def hs_color(self) -> tuple[float, float]:
         """Return the LED HS color."""
         return self._hsv_color[:2]
 
@@ -185,15 +187,14 @@ class EfireLed(NapoleonEfireEntity, LightEntity):
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn LED lights on."""
-
         brightness = self.brightness
         hs_color = self.hs_color
 
         if ATTR_BRIGHTNESS in kwargs:
-            brightness = kwargs[ATTR_BRIGHTNESS]
+            brightness: int = kwargs[ATTR_BRIGHTNESS]
 
         if ATTR_HS_COLOR in kwargs:
-            hs_color = kwargs[ATTR_HS_COLOR]
+            hs_color: tuple[float, float] = kwargs[ATTR_HS_COLOR]
 
         rgb = color_util.color_hsv_to_RGB(
             hs_color[0], hs_color[1], brightness / 255 * 100
@@ -201,16 +202,14 @@ class EfireLed(NapoleonEfireEntity, LightEntity):
 
         await self.fireplace.set_led_color(rgb)
 
-        if ATTR_EFFECT in kwargs:
-            if kwargs[ATTR_EFFECT] in EFFECT_MAP:
-                effect_selected = kwargs[ATTR_EFFECT] != EFFECT_HOLD
-                effect = EFFECT_MAP[
-                    kwargs[ATTR_EFFECT] if effect_selected else self.effect
-                ]
-                await self.fireplace.set_led_mode(
-                    effect,
-                    on=effect_selected,
-                )
+        if ATTR_EFFECT in kwargs and kwargs[ATTR_EFFECT] in EFFECT_MAP:
+            effect_id: str = kwargs[ATTR_EFFECT]
+            effect_selected: bool = kwargs[ATTR_EFFECT] != EFFECT_HOLD
+            effect = EFFECT_MAP[effect_id if effect_selected else self.effect]
+            await self.fireplace.set_led_mode(
+                effect,
+                on=effect_selected,
+            )
 
         await self.fireplace.set_led_state(on=True)
         await self.coordinator.async_request_refresh()

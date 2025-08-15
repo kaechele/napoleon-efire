@@ -4,13 +4,15 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from typing import TYPE_CHECKING
 
 from bonaparte import Fireplace, FireplaceState
-
-from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, UPDATE_INTERVAL, UPDATE_TIMEOUT
+
+if TYPE_CHECKING:
+    from homeassistant.core import HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
 

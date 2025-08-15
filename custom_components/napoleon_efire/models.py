@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from bonaparte import Fireplace
+if TYPE_CHECKING:
+    from bonaparte import Fireplace
 
-from .coordinator import NapoleonEfireDataUpdateCoordinator
+    from .coordinator import NapoleonEfireDataUpdateCoordinator
 
 
 @dataclass

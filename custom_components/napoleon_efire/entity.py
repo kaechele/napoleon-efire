@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
-import homeassistant.helpers.device_registry as dr
-from homeassistant.helpers.entity import DeviceInfo, EntityDescription
+from homeassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceInfo
+from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
-from .coordinator import NapoleonEfireDataUpdateCoordinator
+from custom_components.napoleon_efire.const import DOMAIN
+from custom_components.napoleon_efire.coordinator import (
+    NapoleonEfireDataUpdateCoordinator,
+)
 
 
 class NapoleonEfireEntity(CoordinatorEntity[NapoleonEfireDataUpdateCoordinator]):
@@ -29,7 +31,7 @@ class NapoleonEfireEntity(CoordinatorEntity[NapoleonEfireDataUpdateCoordinator])
             name=self.fireplace.name,
             manufacturer="Napoleon",
             model="W190-0090",
-            connections={(dr.CONNECTION_BLUETOOTH, self.fireplace.address)},
+            connections={(CONNECTION_BLUETOOTH, self.fireplace.address)},
             identifiers={(DOMAIN, self.fireplace.address)},
             sw_version=f"v{self.fireplace.state.ble_version}",
             hw_version=f"v{self.fireplace.state.mcu_version}",

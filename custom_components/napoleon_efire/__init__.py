@@ -3,24 +3,27 @@
 from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
 
 from bonaparte import Fireplace
-
 from homeassistant.components import bluetooth
 from homeassistant.components.bluetooth.match import ADDRESS, BluetoothCallbackMatcher
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_ADDRESS,
     CONF_PASSWORD,
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from homeassistant.core import Event, HomeAssistant, callback
+from homeassistant.core import callback
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import CONF_FEATURES, DOMAIN
 from .coordinator import NapoleonEfireDataUpdateCoordinator
 from .models import FireplaceData
+
+if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
+    from homeassistant.core import Event, HomeAssistant
 
 PLATFORMS: list[Platform] = [
     Platform.FAN,
@@ -35,11 +38,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Napoleon eFIRE from a config entry."""
     address: str = entry.data[CONF_ADDRESS]
     password: str = entry.data[CONF_PASSWORD]
-    ble_device = bluetooth.async_ble_device_from_address(hass, address.upper(), True)
+    ble_device = bluetooth.async_ble_device_from_address(
+        hass, address.upper(), connectable=True
+    )
     if not ble_device:
-        raise ConfigEntryNotReady(
-            f"Could not find eFIRE fireplace controller with address {address}"
-        )
+        msg = f"Could not find eFIRE fireplace controller with address {address}"
+        raise ConfigEntryNotReady(msg)
 
     fireplace = Fireplace(ble_device, compatibility_mode=False)
     fireplace.set_features(set(entry.data[CONF_FEATURES]))
