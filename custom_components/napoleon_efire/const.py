@@ -16,3 +16,16 @@ UNSUPPORTED_FEATURES = ["timer"]
 # Coordinator constants
 UPDATE_INTERVAL = timedelta(seconds=30)
 UPDATE_TIMEOUT = 15  # seconds
+
+# Entity keys that were part of the legacy `<ble_name>_<key>` unique ID scheme.
+# This list is deliberately frozen: it exists only to recognise IDs written before
+# the switch to `<address>_<key>`, so keys added later never belong in it.
+LEGACY_UNIQUE_ID_KEYS = (
+    "aux",
+    "blower",
+    "continuous_pilot",
+    "flame",
+    "led_lights",
+    "night_light",
+    "split_flow",
+)
