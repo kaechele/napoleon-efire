@@ -33,15 +33,17 @@
     }
   },
   "entity": {
+    "climate": {
+      "flame": {
+        "name": "Chama"
+      }
+    },
     "fan": {
       "blower": {
         "name": "Suprador"
       }
     },
     "light": {
-      "flame": {
-        "name": "Chama"
-      },
       "led_lights": {
         "name": "Luzes LED"
       },

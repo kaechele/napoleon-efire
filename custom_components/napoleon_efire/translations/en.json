@@ -33,15 +33,17 @@
     }
   },
   "entity": {
+    "climate": {
+      "flame": {
+        "name": "Flame"
+      }
+    },
     "fan": {
       "blower": {
         "name": "Blower"
       }
     },
     "light": {
-      "flame": {
-        "name": "Flame"
-      },
       "led_lights": {
         "name": "LED Lights"
       },
