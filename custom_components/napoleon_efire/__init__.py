@@ -16,8 +16,9 @@ from homeassistant.const import (
 )
 from homeassistant.core import callback
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
+from homeassistant.helpers import entity_registry as er
 
-from .const import CONF_FEATURES, DOMAIN
+from .const import CONF_FEATURES, DOMAIN, LEGACY_UNIQUE_ID_KEYS
 from .coordinator import NapoleonEfireDataUpdateCoordinator
 from .models import FireplaceData
 
@@ -32,6 +33,50 @@ PLATFORMS: list[Platform] = [
 ]
 
 _LOGGER = logging.getLogger(__name__)
+
+
+async def _async_migrate_unique_ids(
+    hass: HomeAssistant, entry: ConfigEntry, address: str
+) -> None:
+    """Re-key entities from the BLE advertised name onto the device address.
+
+    Entities used to be keyed as `<ble_name>_<key>`, but the advertised name is not
+    stable, so a name change orphaned every entity and created a fresh set. Rewrite
+    any surviving legacy ID onto `<address>_<key>` so history and automations follow.
+    """
+    registry = er.async_get(hass)
+
+    @callback
+    def _migrator(entity_entry: er.RegistryEntry) -> dict[str, str] | None:
+        for key in LEGACY_UNIQUE_ID_KEYS:
+            suffix = f"_{key}"
+            if not entity_entry.unique_id.endswith(suffix):
+                continue
+            new_unique_id = f"{address}{suffix}"
+            if new_unique_id == entity_entry.unique_id:
+                return None
+            if (
+                existing := registry.async_get_entity_id(
+                    entity_entry.domain, DOMAIN, new_unique_id
+                )
+            ) is not None:
+                # A previous name change already produced an entity under the stable
+                # ID. Renaming onto it would collide, so leave the stale one for the
+                # user to delete rather than failing setup.
+                _LOGGER.debug(
+                    "Not migrating %s to %s: already held by %s",
+                    entity_entry.entity_id,
+                    new_unique_id,
+                    existing,
+                )
+                return None
+            _LOGGER.debug(
+                "Migrating unique ID of %s to %s", entity_entry.entity_id, new_unique_id
+            )
+            return {"new_unique_id": new_unique_id}
+        return None
+
+    await er.async_migrate_entries(hass, entry.entry_id, _migrator)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -52,6 +97,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         fireplace.name,
         set(entry.data[CONF_FEATURES]),
     )
+
+    # Keyed off fireplace.address rather than entry.data[CONF_ADDRESS] so the value
+    # is byte-identical to the one the entities build their unique IDs from.
+    await _async_migrate_unique_ids(hass, entry, fireplace.address)
 
     @callback
     def _async_update_ble(

@@ -37,8 +37,12 @@ class NapoleonEfireEntity(CoordinatorEntity[NapoleonEfireDataUpdateCoordinator])
             hw_version=f"v{self.fireplace.state.mcu_version}",
         )
 
+        # The BLE advertised name is not a stable identifier: the same controller
+        # may advertise as NAP_FPC_* or as its bare MAC depending on adapter and
+        # timing, which orphans every entity whenever it changes. The address is
+        # already the stable identifier for the config entry, so use it here too.
         if description:
             self.entity_description = description
-            self._attr_unique_id = f"{self.fireplace.name}_{description.key}"
+            self._attr_unique_id = f"{self.fireplace.address}_{description.key}"
         elif self.key:
-            self._attr_unique_id = f"{self.fireplace.name}_{self.key}"
+            self._attr_unique_id = f"{self.fireplace.address}_{self.key}"
