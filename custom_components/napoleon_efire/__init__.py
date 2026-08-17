@@ -18,9 +18,9 @@ from homeassistant.core import callback
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import entity_registry as er
 
-from .const import CONF_FEATURES, DOMAIN, LEGACY_UNIQUE_ID_KEYS
+from .const import DOMAIN, LEGACY_UNIQUE_ID_KEYS
 from .coordinator import NapoleonEfireDataUpdateCoordinator
-from .models import FireplaceData
+from .models import FireplaceData, configured_features
 
 if TYPE_CHECKING:
     from homeassistant.config_entries import ConfigEntry
@@ -79,6 +79,11 @@ async def _async_migrate_unique_ids(
     await er.async_migrate_entries(hass, entry.entry_id, _migrator)
 
 
+async def _async_options_updated(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Reload the entry so a changed feature set takes effect."""
+    await hass.config_entries.async_reload(entry.entry_id)
+
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Napoleon eFIRE from a config entry."""
     address: str = entry.data[CONF_ADDRESS]
@@ -91,12 +96,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         raise ConfigEntryNotReady(msg)
 
     fireplace = Fireplace(ble_device, compatibility_mode=False)
-    fireplace.set_features(set(entry.data[CONF_FEATURES]))
+    features = configured_features(entry)
+    fireplace.set_features(features)
     _LOGGER.debug(
         "Fireplace %s initialized. Feature set: %s",
         fireplace.name,
-        set(entry.data[CONF_FEATURES]),
+        features,
     )
+
+    # Reload when the feature selection changes, so platforms are rebuilt against it.
+    entry.async_on_unload(entry.add_update_listener(_async_options_updated))
 
     # Keyed off fireplace.address rather than entry.data[CONF_ADDRESS] so the value
     # is byte-identical to the one the entities build their unique IDs from.
