@@ -29,7 +29,7 @@
           "address": "[%key:common::config_flow::data::device%]",
           "password": "[%key:common::config_flow::data::password%]"
         },
-        "description": "Select your fireplace and enter the password"
+        "description": "Select your fireplace and enter the password. The default password is '0000'."
       }
     }
   },

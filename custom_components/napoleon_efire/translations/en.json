@@ -28,7 +28,7 @@
           "address": "Device",
           "password": "Password"
         },
-        "description": "Select your fireplace and enter the password"
+        "description": "Select your fireplace and enter the password. The default password is '0000'."
       }
     }
   },
