@@ -6,7 +6,7 @@
     "error": {
       "invalid_auth": "Invalid authentication. Please check your password and try again."
     },
-    "flow_title": "Napoleon Fireplace {name}",
+    "flow_title": "Napoleon Fireplace ({short_address})",
     "step": {
       "select_features": {
         "data": {

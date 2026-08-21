@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-from bluetooth_data_tools import human_readable_name
+from bluetooth_data_tools import short_address
 from bonaparte import Fireplace
 from bonaparte.const import Feature
 from homeassistant.components.bluetooth import (
@@ -69,9 +69,7 @@ class EfireConfigFlow(ConfigFlow, domain=DOMAIN):
         self._abort_if_unique_id_configured()
         self._discovery_info = discovery_info
         self.context["title_placeholders"] = {
-            "name": human_readable_name(
-                None, discovery_info.name, discovery_info.address
-            )
+            "short_address": short_address(discovery_info.address)
         }
         return await self.async_step_user()
 

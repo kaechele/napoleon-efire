@@ -6,7 +6,7 @@
     "error": {
       "invalid_auth": "Autenticação errada"
     },
-    "flow_title": "Napoleão Fireplace {name}",
+    "flow_title": "Napoleon Fireplace ({short_address})",
     "step": {
       "select_features": {
         "data": {
