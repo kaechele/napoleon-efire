@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling"]
+requires      = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
@@ -7,7 +7,7 @@ name = "napoleon-efire"
 dynamic = ["version"]
 description = 'Home Assistant component for Napoleon fireplaces'
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14.2"
 license = "Apache-2.0"
 authors = [
   { name = "Felix Kaechele", email = "felix@kaechele.ca" },
@@ -15,32 +15,33 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
   "bluetooth_data_tools>=1.28.0",
-  "homeassistant>=2025.8",
+  "homeassistant>=2026.3.2",
   "bonaparte>=1.0.1",
 ]
 
 [project.urls]
 Documentation = "https://github.com/kaechele/napoleon-efire#readme"
-Issues = "https://github.com/kaechele/napoleon-efire/issues"
-Source = "https://github.com/kaechele/napoleon-efire"
+Issues        = "https://github.com/kaechele/napoleon-efire/issues"
+Source        = "https://github.com/kaechele/napoleon-efire"
 
 [tool.hatch.version]
-path = "custom_components/napoleon_efire/manifest.json"
+path    = "custom_components/napoleon_efire/manifest.json"
 pattern = '"version": "(?P<version>[^\"]+)"'
 
 [tool.hatch.envs.default]
-path = ".envs/default"
-python = "3.13"
+path      = ".envs/default"
+python    = "3.14"
+installer = "uv"
 
 [tool.hatch.envs.lint]
 detached = true
 path = ".envs/lint"
 dependencies = [
-  "ruff>=0.12.3",
+  "ruff>=0.13.0",
 ]
 [tool.hatch.envs.lint.scripts]
 style = [
@@ -58,13 +59,13 @@ all = [
 [tool.hatch.envs.release]
 detached = true
 dependencies = [
-  "python-semantic-release>=10.3.1"
+  "python-semantic-release>=10.3.1",
 ]
 
 [tool.hatch.envs.release.scripts]
 dryrun = "semantic-release --noop version"
-local = "semantic-release version --no-push"
-push = "semantic-release version"
+local  = "semantic-release version --no-push"
+push   = "semantic-release version"
 
 [tool.semantic_release]
 logging_use_named_masks = true
@@ -76,5 +77,10 @@ build_command = """
   popd
 """
 version_variables = [
-    "custom_components/napoleon_efire/manifest.json:version"
+  "custom_components/napoleon_efire/manifest.json:version",
+]
+
+[dependency-groups]
+dev = [
+  "pylint>=3.3.8",
 ]

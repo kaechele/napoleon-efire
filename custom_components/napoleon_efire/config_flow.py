@@ -5,7 +5,6 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING
 
-import voluptuous as vol
 from bluetooth_data_tools import human_readable_name
 from bonaparte import Fireplace
 from bonaparte.const import Feature
@@ -16,6 +15,7 @@ from homeassistant.components.bluetooth import (
 from homeassistant.config_entries import ConfigFlow
 from homeassistant.const import CONF_ADDRESS, CONF_NAME, CONF_PASSWORD
 from homeassistant.helpers import selector
+import voluptuous as vol
 
 from .const import CONF_FEATURES, DOMAIN, LOCAL_NAME_PREFIX, UNSUPPORTED_FEATURES
 

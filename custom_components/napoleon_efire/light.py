@@ -6,7 +6,6 @@ import logging
 from math import ceil
 from typing import TYPE_CHECKING, Any
 
-import homeassistant.util.color as color_util
 from bonaparte.const import LedMode
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
@@ -15,6 +14,7 @@ from homeassistant.components.light import (
     LightEntity,
 )
 from homeassistant.components.light.const import ColorMode, LightEntityFeature
+import homeassistant.util.color as color_util
 
 from .const import DOMAIN
 from .entity import NapoleonEfireEntity
