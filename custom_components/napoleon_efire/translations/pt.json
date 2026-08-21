@@ -1,12 +1,10 @@
 {
   "config": {
     "abort": {
-      "already_configured": "Equipamento já configurado"
+      "no_unconfigured_devices": "Nenhum equipamento não configurado encontrado"
     },
     "error": {
-      "cannot_connect": "Falha na ligação",
-      "invalid_auth": "Autenticação errada",
-      "unknown": "Erro desconhecido"
+      "invalid_auth": "Autenticação errada"
     },
     "flow_title": "Napoleão Fireplace {name}",
     "step": {
