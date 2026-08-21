@@ -33,6 +33,26 @@
       }
     }
   },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "aux": "[%key:component::napoleon_efire::entity::switch::aux::name%]",
+          "blower": "[%key:component::napoleon_efire::entity::fan::blower::name%]",
+          "led_lights": "LED Lights",
+          "night_light": "[%key:component::napoleon_efire::entity::light::night_light::name%]",
+          "split_flow": "[%key:component::napoleon_efire::entity::switch::split_flow::name%]"
+        },
+        "data_description": {
+          "aux": "[%key:component::napoleon_efire::config::step::select_features::data_description::aux%]",
+          "led_lights": "The LED light kit, if one is fitted. Untick this if the LED controls appear to do nothing",
+          "night_light": "[%key:component::napoleon_efire::config::step::select_features::data_description::night_light%]",
+          "split_flow": "[%key:component::napoleon_efire::config::step::select_features::data_description::split_flow%]"
+        },
+        "description": "Change the features your fireplace is equipped with. Entities for features you untick will stop being provided."
+      }
+    }
+  },
   "entity": {
     "fan": {
       "blower": {

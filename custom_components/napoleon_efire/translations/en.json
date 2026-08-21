@@ -32,6 +32,26 @@
       }
     }
   },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "aux": "Aux",
+          "blower": "Blower",
+          "led_lights": "LED Lights",
+          "night_light": "Night Light",
+          "split_flow": "Split flow"
+        },
+        "data_description": {
+          "aux": "Select if you want to control the AUX relay on your fireplace",
+          "led_lights": "The LED light kit, if one is fitted. Untick this if the LED controls appear to do nothing",
+          "night_light": "The light mounted at the top inside the firebox",
+          "split_flow": "Select if your fireplace has a primary and secondary burner (eg. front/back)"
+        },
+        "description": "Change the features your fireplace is equipped with. Entities for features you untick will stop being provided."
+      }
+    }
+  },
   "entity": {
     "fan": {
       "blower": {

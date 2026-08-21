@@ -12,27 +12,35 @@ from homeassistant.components.bluetooth import (
     BluetoothServiceInfoBleak,
     async_discovered_service_info,
 )
-from homeassistant.config_entries import ConfigFlow
+from homeassistant.config_entries import ConfigFlow, OptionsFlow
 from homeassistant.const import CONF_ADDRESS, CONF_NAME, CONF_PASSWORD
+from homeassistant.core import callback
 from homeassistant.helpers import selector
 import voluptuous as vol
 
 from .const import CONF_FEATURES, DOMAIN, LOCAL_NAME_PREFIX, UNSUPPORTED_FEATURES
+from .models import configured_features
 
 if TYPE_CHECKING:
     from bleak.backends.device import BLEDevice
-    from homeassistant.config_entries import ConfigFlowResult
+    from homeassistant.config_entries import ConfigEntry, ConfigFlowResult
 
 AVAILABLE_FEATURES = [f.value for f in Feature if f.value not in UNSUPPORTED_FEATURES]
 
-FEATURES_SCHEMA = {
-    # replace selector.BooleanSelector() with bool once
-    # https://github.com/home-assistant/frontend/issues/15536 is fixed
-    vol.Required(feature, default=False): selector.BooleanSelector(
-        selector.BackupLocationSelectorConfig()
+
+def features_schema(selected: set[str]) -> vol.Schema:
+    """Build the feature checkboxes, with the given features pre-ticked."""
+    return vol.Schema(
+        {
+            # replace selector.BooleanSelector() with bool once
+            # https://github.com/home-assistant/frontend/issues/15536 is fixed
+            vol.Required(
+                feature, default=feature in selected
+            ): selector.BooleanSelector(selector.BackupLocationSelectorConfig())
+            for feature in AVAILABLE_FEATURES
+        }
     )
-    for feature in AVAILABLE_FEATURES
-}
+
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -49,10 +57,50 @@ async def async_validate_fireplace_or_error(
     return {}
 
 
+class EfireOptionsFlow(OptionsFlow):
+    """Let the fireplace's feature set be corrected after setup.
+
+    The feature list describes hardware the installer says is fitted; nothing probes for
+    it. A wrong answer produces entities that accept commands and silently do nothing,
+    and without this flow the only way to correct it was to delete the config entry and
+    start over, losing every entity id and its history.
+    """
+
+    async def async_step_init(
+        self, user_input: dict[str, bool] | None = None
+    ) -> ConfigFlowResult:
+        """Show the feature checkboxes, pre-ticked with the current selection."""
+        if user_input is not None:
+            return self.async_create_entry(
+                data={
+                    CONF_FEATURES: [
+                        key
+                        for (key, value) in user_input.items()
+                        if key in AVAILABLE_FEATURES and value
+                    ]
+                }
+            )
+
+        return self.async_show_form(
+            step_id="init",
+            data_schema=features_schema(configured_features(self.config_entry)),
+        )
+
+
 class EfireConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Napoleon eFIRE."""
 
     VERSION = 1
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry: ConfigEntry) -> EfireOptionsFlow:
+        """Return the options flow for this entry.
+
+        `config_entry` is unused: HA assigns it to the flow itself, and assigning it
+        here is deprecated.
+        """
+        return EfireOptionsFlow()
 
     def __init__(self) -> None:
         """Initialize config flow."""
@@ -155,7 +203,8 @@ class EfireConfigFlow(ConfigFlow, domain=DOMAIN):
             )
 
         errors: dict[str, str] = {}
-        data_schema = vol.Schema(FEATURES_SCHEMA)
         return self.async_show_form(
-            step_id="select_features", data_schema=data_schema, errors=errors
+            step_id="select_features",
+            data_schema=features_schema(set()),
+            errors=errors,
         )
