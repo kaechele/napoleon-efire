@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-from math import ceil
 from typing import TYPE_CHECKING, Any
 
 from bonaparte.const import LedMode
@@ -47,7 +46,8 @@ async def async_setup_entry(
     """Set up the light entity."""
     data: FireplaceData = hass.data[DOMAIN][entry.entry_id]
 
-    efire_lights: list[NapoleonEfireEntity] = [EfireFlame(coordinator=data.coordinator)]
+    # The flame is deliberately NOT here — it is a climate entity. See climate.py.
+    efire_lights: list[NapoleonEfireEntity] = []
 
     if data.device.has_led_lights:
         efire_lights.append(EfireLed(coordinator=data.coordinator))
@@ -64,47 +64,6 @@ async def async_setup_entry(
         )
 
     async_add_entities(efire_lights)
-
-
-class EfireFlame(NapoleonEfireEntity, LightEntity):
-    """Flame (as light) entity."""
-
-    _attr_color_mode = ColorMode.BRIGHTNESS
-    _attr_supported_color_modes = {ColorMode.BRIGHTNESS}
-    _attr_translation_key = "flame"
-
-    key = _attr_translation_key
-
-    @property
-    def brightness(self) -> int:
-        """Return the current flame height 0-255."""
-        return int((self.fireplace.state.flame_height / 6) * 255)
-
-    @property
-    def icon(self) -> str:
-        """Return appropriate icon for flame entity."""
-        return "mdi:fireplace" if self.fireplace.state.power else "mdi:fireplace-off"
-
-    @property
-    def is_on(self) -> bool:
-        """Return true if flame is on."""
-        return self.fireplace.state.flame_height >= 1
-
-    async def async_turn_on(self, **kwargs: Any) -> None:
-        """Instruct the flame to turn on."""
-        flame_height = 6
-        if ATTR_BRIGHTNESS in kwargs:
-            flame_height = min(ceil(kwargs[ATTR_BRIGHTNESS] / 255 * 6), 6)
-        # Setting the flame height to a non-zero value will also implicitly
-        # call the power_on function in the bonaparte library.
-        # Therefor, not calling it explicitly here.
-        await self.fireplace.set_flame_height(flame_height)
-        await self.coordinator.async_request_refresh()
-
-    async def async_turn_off(self, **kwargs: Any) -> None:
-        """Instruct the flame to turn off."""
-        await self.fireplace.set_flame_height(0)
-        await self.coordinator.async_request_refresh()
 
 
 class EfireNightLight(NapoleonEfireEntity, LightEntity):

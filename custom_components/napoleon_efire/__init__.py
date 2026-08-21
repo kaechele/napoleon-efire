@@ -18,7 +18,7 @@ from homeassistant.core import callback
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import entity_registry as er
 
-from .const import CONF_FEATURES, DOMAIN, LEGACY_UNIQUE_ID_KEYS
+from .const import CONF_FEATURES, DOMAIN, FLAME_KEY, LEGACY_UNIQUE_ID_KEYS
 from .coordinator import NapoleonEfireDataUpdateCoordinator
 from .models import FireplaceData
 
@@ -27,12 +27,37 @@ if TYPE_CHECKING:
     from homeassistant.core import Event, HomeAssistant
 
 PLATFORMS: list[Platform] = [
+    Platform.CLIMATE,
     Platform.FAN,
     Platform.LIGHT,
     Platform.SWITCH,
 ]
 
 _LOGGER = logging.getLogger(__name__)
+
+
+@callback
+def _async_remove_legacy_flame_light(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Drop the light entity the burner used to be.
+
+    The flame is a climate entity now. A domain is part of an entity's identity, so
+    the old `light.*` registry entry cannot be renamed onto the new one; left alone
+    it lingers forever as an unavailable orphan that still answers to `light.turn_on`
+    against an area. Removing it is the point of the change, so it is not optional.
+    """
+    registry = er.async_get(hass)
+    suffix = f"_{FLAME_KEY}"
+
+    for entity_entry in er.async_entries_for_config_entry(registry, entry.entry_id):
+        if entity_entry.domain != Platform.LIGHT:
+            continue
+        if not entity_entry.unique_id.endswith(suffix):
+            continue
+        _LOGGER.info(
+            "Removing %s: the flame is a climate entity as of this version",
+            entity_entry.entity_id,
+        )
+        registry.async_remove(entity_entry.entity_id)
 
 
 async def _async_migrate_unique_ids(
@@ -97,6 +122,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         fireplace.name,
         set(entry.data[CONF_FEATURES]),
     )
+
+    # Order matters: clear the old light entity out first so the unique ID migration
+    # below never bothers re-keying something that is about to be deleted.
+    _async_remove_legacy_flame_light(hass, entry)
 
     # Keyed off fireplace.address rather than entry.data[CONF_ADDRESS] so the value
     # is byte-identical to the one the entities build their unique IDs from.
